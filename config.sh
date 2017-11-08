@@ -8,4 +8,5 @@ KEY_EMAIL="me@fanhero.com"
 KEY_OU="MyOrganizationalUnit"
 
 VCP_IP="172.16.0.0"
+LOCAL_IP="172.16.30.208"
 PUBLIC_IP="174.129.187.34"

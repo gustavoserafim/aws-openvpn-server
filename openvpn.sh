@@ -10,7 +10,7 @@ fi
 source ./aws-openvpn-server/config.sh
 
 # Install OpenVPN and expect
-apt-get -y install openvpn easy-rsa expect
+apt-get -y install build-essential openvpn easy-rsa expect
 
 # Set up the CA directory
 make-cadir ~/openvpn-ca
@@ -31,7 +31,8 @@ source vars
 yes "" | ./build-ca
 
 # Create the server certificate, key, and encryption files
-yes "" | .build-key-server server
+cp ~/aws-openvpn-server/build-key-server.sh ~/openvpn-ca/build-key-server.sh
+./build-key-server.sh
 ./build-dh
 openvpn --genkey --secret keys/ta.key
 
@@ -41,8 +42,8 @@ cp ca.crt ca.key server.crt server.key ta.key dh2048.pem /etc/openvpn
 gunzip -c /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz | sudo tee /etc/openvpn/server.conf
 
 # Adjust the OpenVPN configuration
-sed -i "s/;local a.b.c.d/local ${PUBLIC_IP}/" /etc/openvpn/server.conf
-sed -i "s/;push \"route 192.168.10.0 255.255.255.0\"/push \"route ${VCP_IP} 255.255.0.0\"" /etc/openvpn/server.conf
+sed -i "s/;local a.b.c.d/local ${LOCAL_IP}/" /etc/openvpn/server.conf
+# sed -i "s/;push \"route 192.168.10.0 255.255.255.0\"/push \"route ${VCP_IP} 255.255.0.0\"" /etc/openvpn/server.conf
 sed -i "s/;push \"redirect-gateway def1 bypass-dhcp\"/push \"redirect-gateway def1 bypass-dhcp\"/" /etc/openvpn/server.conf
 sed -i "s/;push \"dhcp-option DNS 208.67.222.222\"/push \"dhcp-option DNS 208.67.222.222\"/" /etc/openvpn/server.conf
 sed -i "s/;push \"dhcp-option DNS 208.67.220.220\"/push \"dhcp-option DNS 208.67.220.220\"/" /etc/openvpn/server.conf
@@ -66,7 +67,6 @@ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 # Make iptables rules persistent across reboots
 iptables-save > /etc/iptables/rules.v4
-service iptables-persistent reload
 
 # Start and enable the OpenVPN service
 systemctl start openvpn@server

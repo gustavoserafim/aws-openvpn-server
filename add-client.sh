@@ -2,7 +2,7 @@
 
 # Copy make_config.sh files to the client-configs directory
 cp ~/aws-openvpn-server/make-config.sh ~/client-configs/make-config.sh
-cp ~/aws-openvpn-server/build-key.sh ~/client-configs/build-key.sh
+cp ~/aws-openvpn-server/build-key.sh ~/openvpn-ca/build-key.sh
 
 # Generate client certificate
 cd ~/openvpn-ca
@@ -12,3 +12,6 @@ source vars
 # Generate client configurations
 cd ~/client-configs
 ./make-config.sh $1
+
+# Restart the OpenVPN service
+systemctl restart openvpn@server

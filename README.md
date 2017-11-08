@@ -8,15 +8,22 @@ Launch an Instance with an Ubuntu Server 16.04 LTS AMI
 Select Micro or small ??
 Select the network you are using for your VPC instances
 Create a Security Group with ports TCP 22 and UDP 1194 open
+From the list of instances, select the VPN instance and then Networking->Change Source/Dest. Check from the drop down menu. Then click Yes, Disable. This is needed as otherwise, your VPN server will not be able to connect to your other EC2 instances.
+Create an Elastic IP Address
 
 ## Set up
 
+    $ sudo su -
     $ git clone https://github.com/gustavoserafim/aws-openvpn-server.git
     $ chmod -R 700 aws-openvpn-server
     $ nano aws-openvpn-server/config.sh
     Update config.sh and fill in your own config
     $ ./aws-openvpn-server/update.sh
     $ ./aws-openvpn-server/openvpn.sh
+    $ vim  /etc/openvpn/server.conf
+    Add this:
+    push "route 172.16.0.0 255.255.0.0"
+    $ systemctl restart openvpn@server
 
 
 ## Add a client
@@ -38,9 +45,15 @@ If you ever need to revoke access, simply execute:
     $ sudo su -
     $ ./aws-openvpn-server/revoke-full.sh client-name
 
+## Copy configuration file to your local machine
+
+Download the ovpn file to your local device, on your terminal type:
+sftp -i ~/.ssh/YOUR_PEM.pem ubuntu@SERVER_IP:client-configs/files/CLIENT-NAME.ovpn ~/
+
 
 ## TODO
 
+- line 46 on openvpn.sh don't work with sed
 - Revoke is not working correctly
 - Improve paths
 - Update it to a CloudFormation Script

@@ -45,8 +45,8 @@ gunzip -c /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz | s
 sed -i "s/;local a.b.c.d/local ${LOCAL_IP}/" /etc/openvpn/server.conf
 # sed -i "s/;push \"route 192.168.10.0 255.255.255.0\"/push \"route ${VCP_IP} 255.255.0.0\"" /etc/openvpn/server.conf
 sed -i "s/;push \"redirect-gateway def1 bypass-dhcp\"/push \"redirect-gateway def1 bypass-dhcp\"/" /etc/openvpn/server.conf
-sed -i "s/;push \"dhcp-option DNS 208.67.222.222\"/push \"dhcp-option DNS 208.67.222.222\"/" /etc/openvpn/server.conf
-sed -i "s/;push \"dhcp-option DNS 208.67.220.220\"/push \"dhcp-option DNS 208.67.220.220\"/" /etc/openvpn/server.conf
+sed -i "s/;push \"dhcp-option DNS 1.1.1.1\"/push \"dhcp-option DNS 1.1.1.1\"/" /etc/openvpn/server.conf
+sed -i "s/;push \"dhcp-option DNS 1.0.0.1\"/push \"dhcp-option DNS 1.0.0.1\"/" /etc/openvpn/server.conf
 sed -i "s/;tls-auth ta.key 0/tls-auth ta.key 0\nkey-direction 0/" /etc/openvpn/server.conf
 sed -i "s/;cipher AES-128-CBC/cipher AES-128-CBC\nauth SHA256/" /etc/openvpn/server.conf
 sed -i "s/;user nobody/user nobody/" /etc/openvpn/server.conf

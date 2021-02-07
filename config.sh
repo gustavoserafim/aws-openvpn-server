@@ -2,11 +2,11 @@
 
 KEY_COUNTRY="US"
 KEY_PROVINCE="FL"
-KEY_CITY="Orlando"
-KEY_ORG="Fanhero"
-KEY_EMAIL="me@fanhero.com"
+KEY_CITY="Miami"
+KEY_ORG="Company"
+KEY_EMAIL="me@company.com"
 KEY_OU="MyOrganizationalUnit"
 
-VCP_IP="172.16.0.0"
-LOCAL_IP="172.16.30.208"
-PUBLIC_IP="174.129.187.34"
+VCP_IP="10.0.0.0"
+LOCAL_IP="10.0.4.215"
+PUBLIC_IP="54.80.188.156"
